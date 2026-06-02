@@ -42,7 +42,7 @@
         <span
             class="ic-trigger"
             x-bind:class="{ 'is-hidden': armed || processing }"
-            x-on:click.prevent.stop="arm()"
+            x-on:click.capture.prevent.stop="arm()"
         >
             {!! $manager->renderOriginalAction($action, isLivewireClickHandlerEnabled: false) !!}
         </span>
@@ -55,7 +55,7 @@
             :icon="$icon"
             :tooltip="$viewComponent === 'filament::icon-button' ? $action->getModalSubmitActionLabel() : null"
             x-bind:class="{ 'is-visible': armed && !processing, 'is-processing': processing }"
-            x-on:click.prevent.stop="process(); Promise.resolve($wire.{!! $mountHandler !!}).then(() => $wire.{!! $confirmHandler !!}()).finally(() => disarm())"
+            x-on:click.prevent.stop="process(); $wire.{!! $mountHandler !!}; $wire.{!! $confirmHandler !!}().finally(() => disarm())"
             type="button"
         >
             @if ($viewComponent !== 'filament::icon-button')
