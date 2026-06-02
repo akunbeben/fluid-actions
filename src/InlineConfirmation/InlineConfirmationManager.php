@@ -31,7 +31,7 @@ final class InlineConfirmationManager
     {
         $config = $this->for($action);
 
-        if (!$config instanceof \Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationConfig) {
+        if (! $config instanceof InlineConfirmationConfig) {
             return $this->renderFallbackAction($action, $isLivewireClickHandlerEnabled);
         }
 
