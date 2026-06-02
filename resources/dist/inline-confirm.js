@@ -1,0 +1,1 @@
+document.addEventListener("alpine:init",()=>{Alpine.data("inlineConfirmAction",({timeout:i,confirm:e})=>({armed:!1,timer:null,arm(){this.armed=!0,this.timer=setTimeout(()=>this.disarm(),i)},confirm(){clearTimeout(this.timer),this.armed=!1,e()},disarm(){clearTimeout(this.timer),this.armed=!1}}))});
