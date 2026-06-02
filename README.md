@@ -40,10 +40,8 @@ use Filament\Actions\Action;
 
 Action::make('deactivate')
     ->requiresConfirmation()
-    ->inlineConfirmation(
-        label: 'Confirm',
-        timeout: 3000,
-    );
+    ->modalSubmitActionLabel('Confirm')
+    ->inlineConfirmation(timeout: 3000);
 ```
 
 ## Limitations
@@ -71,7 +69,7 @@ Please review [our security policy](.github/SECURITY.md) on how to report securi
 ## Credits
 
 - [Benny Rahmat](https://github.com/akunbeben)
-- [All Contributors](../../contributors)
+- [All Contributors](https://github.com/akunbeben/inline-confirm/graphs/contributors)
 
 ## License
 

@@ -2,6 +2,6 @@
 
 All notable changes to `inline-confirm` will be documented in this file.
 
-## 1.0.0 - 202X-XX-XX
+## 0.1.0 - 2026-06-03
 
 - initial release
