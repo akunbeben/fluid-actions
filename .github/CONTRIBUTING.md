@@ -1,55 +1,53 @@
 # Contributing
 
-Contributions are **welcome** and will be fully **credited**.
+Contributions are welcome. This package aims to provide a small, high-quality FilamentPHP plugin with careful UX and seamless DX, so changes should stay focused and well tested.
 
-Please read and understand the contribution guide before creating an issue or pull request.
+## Before Opening An Issue
 
-## Etiquette
+Please check existing issues and pull requests first.
 
-This project is open source, and as such, the maintainers give their free time to build and maintain the source code
-held within. They make the code freely available in the hope that it will be of use to other developers. It would be
-extremely unfair for them to suffer abuse or anger for their hard work.
+For bugs, include:
 
-Please be considerate towards maintainers when raising issues or presenting pull requests. Let's show the
-world that developers are civilized and selfless people.
+- Filament version.
+- Livewire version.
+- Laravel and PHP versions.
+- Whether the action is a table row action, header/page action, bulk action, or another action type.
+- Whether the action uses `requiresConfirmation()` and `inlineConfirmation()`.
+- Whether the action has a schema/form, custom modal content, custom modal footer content, URL behavior, submit behavior, or is inside an `ActionGroup`.
+- A minimal action definition that reproduces the problem.
 
-It's the duty of the maintainer to ensure that all submissions to the project are of sufficient
-quality to benefit the project. Many developers have different skills, strengths, and weaknesses. Respect the maintainer's decision, and do not be upset or abusive if your submission is not used.
+For feature requests, explain the user workflow and why the current fallback behavior is not enough. Support for grouped/dropdown actions and richer inline copy are roadmap items, so proposals in those areas should include expected UX details.
 
-## Viability
+## Pull Requests
 
-When requesting or submitting new features, first consider whether it might be useful to others. Open
-source projects are used by many developers, who may have entirely different needs to your own. Think about
-whether or not your feature is likely to be used by other users of the project.
+Keep pull requests small and focused. One behavior change per pull request is easiest to review.
 
-## Procedure
+Before submitting:
 
-Before filing an issue:
+- Add or update tests for changed behavior.
+- Update `README.md` when public API, setup, fallback behavior, or user-facing DX changes.
+- Keep `inlineConfirmation()` opt-in and preserve `requiresConfirmation()` as the semantic confirmation gate.
+- Preserve safe fallback to Filament's default modal behavior for unsupported action types.
 
-- Attempt to replicate the problem, to ensure that it wasn't a coincidental incident.
-- Check to make sure your feature suggestion isn't already present within the project.
-- Check the pull requests tab to ensure that the bug doesn't have a fix in progress.
-- Check the pull requests tab to ensure that the feature isn't already in progress.
+## Local Checks
 
-Before submitting a pull request:
+Run these before opening a pull request:
 
-- Check the codebase to ensure that your feature doesn't already exist.
-- Check the pull requests to ensure that another person hasn't already submitted the feature or fix.
+```bash
+composer test
+composer test:lint
+composer analyse
+npm run build
+```
 
-## Requirements
+Use Laravel Pint for code style:
 
-If the project maintainer has any additional requirements, you will find them listed here.
+```bash
+composer lint
+```
 
-- **[PSR-2 Coding Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)** - The easiest way to apply the conventions is to install [PHP Code Sniffer](https://pear.php.net/package/PHP_CodeSniffer).
+## Compatibility
 
-- **Add tests!** - Your patch won't be accepted if it doesn't have tests.
+Avoid breaking public API without a clear versioning reason. This package follows SemVer once released.
 
-- **Document any change in behaviour** - Make sure the `README.md` and any other relevant documentation are kept up-to-date.
-
-- **Consider our release cycle** - We try to follow [SemVer v2.0.0](https://semver.org/). Randomly breaking public APIs is not an option.
-
-- **One pull request per feature** - If you want to do more than one thing, send multiple pull requests.
-
-- **Send coherent history** - Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please [squash them](https://www.git-scm.com/book/en/v2/Git-Tools-Rewriting-History#Changing-Multiple-Commit-Messages) before submitting.
-
-**Happy coding**!
+The v1 scope is confirmation-only, non-grouped actions. If your change expands that scope, include tests and documentation for the new supported action type.
