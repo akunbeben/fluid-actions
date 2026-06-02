@@ -1,31 +1,111 @@
+/* ── Container ───────────────────────────────── */
+
 .ic-action {
-    display: inline-flex;
-    align-items: center;
+    display: inline-grid;
+    vertical-align: middle;
 }
 
-.ic-confirm {
+.ic-action > * {
+    grid-area: 1 / 1;
+}
+
+/* ── Trigger (original button wrapper) ───────── */
+
+.ic-trigger {
     display: inline-flex;
-    min-height: 1.75rem;
     align-items: center;
     justify-content: center;
-    border-radius: 9999px;
-    padding-inline: 0.625rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    line-height: 1.25rem;
-    color: rgb(248 113 113);
-    background-color: rgb(127 29 29 / 0.45);
+    
     transition:
-        color 75ms,
-        background-color 75ms;
+        opacity 250ms cubic-bezier(0.32, 0.72, 0, 1),
+        transform 250ms cubic-bezier(0.32, 0.72, 0, 1),
+        filter 250ms cubic-bezier(0.32, 0.72, 0, 1);
+    transform-origin: center;
 }
 
-.ic-confirm:hover {
-    color: rgb(252 165 165);
-    background-color: rgb(127 29 29 / 0.65);
+.ic-trigger.is-hidden {
+    opacity: 0;
+    transform: scale(0.95);
+    filter: blur(2px);
+    pointer-events: none;
 }
 
-.ic-confirm:focus-visible {
-    outline: 2px solid rgb(248 113 113);
-    outline-offset: 2px;
+/* ── Confirm Button ──────────────────────────── */
+
+.ic-confirm {
+    position: relative;
+    align-self: center;
+    justify-self: center;
+    
+    opacity: 0;
+    transform: scale(0.95);
+    filter: blur(2px);
+    pointer-events: none;
+
+    /* Ensure text/content stays above the progress bar */
+    z-index: 1;
+    
+    /* Clip the progress bar to the button's native rounded corners */
+    overflow: hidden;
+
+    transition:
+        opacity 300ms cubic-bezier(0.2, 1, 0.2, 1),
+        transform 300ms cubic-bezier(0.2, 1, 0.2, 1),
+        filter 300ms cubic-bezier(0.2, 1, 0.2, 1);
+    transform-origin: center;
+}
+
+/* ── Armed ───────────────────────────────────── */
+
+.ic-confirm.is-visible {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+    pointer-events: auto;
+}
+
+/* Countdown progress bar */
+.ic-confirm.is-visible::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: currentColor;
+    opacity: 0.25;
+    transform-origin: left;
+    animation: ic-countdown var(--ic-timeout, 3000ms) linear forwards;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ── Processing ──────────────────────────────── */
+
+.ic-confirm.is-processing {
+    opacity: 0.7;
+    pointer-events: none;
+    transition: opacity 200ms ease;
+}
+
+/* ── Keyframes ───────────────────────────────── */
+
+@keyframes ic-countdown {
+    from { transform: scaleX(1); }
+    to   { transform: scaleX(0); }
+}
+
+/* ── Accessibility ───────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    .ic-trigger,
+    .ic-confirm {
+        transition-duration: 0ms !important;
+        filter: none !important;
+        transform: none !important;
+    }
+
+    .ic-confirm.is-visible::after {
+        animation: none !important;
+    }
 }

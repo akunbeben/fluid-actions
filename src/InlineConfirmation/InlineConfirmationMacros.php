@@ -9,16 +9,12 @@ final class InlineConfirmationMacros
 {
     public static function inlineConfirmation(): Closure
     {
-        return self::actionMacro(function (?string $label = null, int $timeout = 3000): Action {
-            return app(InlineConfirmationManager::class)->enable($this, $label, $timeout);
-        });
+        return self::actionMacro(fn(int $timeout = 3000): Action => app(InlineConfirmationManager::class)->enable($this, $timeout));
     }
 
     public static function isInlineConfirmationEligible(): Closure
     {
-        return self::actionMacro(function (): bool {
-            return app(InlineConfirmationEligibility::class)->isEligible($this);
-        });
+        return self::actionMacro(fn(): bool => app(InlineConfirmationEligibility::class)->isEligible($this));
     }
 
     /**

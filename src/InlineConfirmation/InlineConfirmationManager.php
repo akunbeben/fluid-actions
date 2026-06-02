@@ -2,24 +2,20 @@
 
 namespace Akunbeben\InlineConfirm\InlineConfirmation;
 
+use Closure;
 use Filament\Actions\Action;
-use WeakMap;
 
 final class InlineConfirmationManager
 {
-    /** @var WeakMap<Action, InlineConfirmationConfig> */
-    private WeakMap $configs;
+    /** @var array<string, InlineConfirmationConfig> */
+    private array $configs = [];
 
-    public function __construct()
+    public function enable(Action $action, int $timeout = 3000): Action
     {
-        $this->configs = new WeakMap;
-    }
+        $explicitView = Closure::bind(fn (): ?string => $this->view ?? null, $action, $action)();
+        $originalView = $this->for($action)->originalView ?? $explicitView;
 
-    public function enable(Action $action, ?string $label = null, int $timeout = 3000): Action
-    {
-        $originalView = $this->configs[$action]->originalView ?? $action->getView();
-
-        $this->configs[$action] = new InlineConfirmationConfig($label, $timeout, $originalView);
+        $this->configs[$action->getName()] = new InlineConfirmationConfig($timeout, $originalView);
 
         $action->view('inline-confirm::action');
 
@@ -28,20 +24,60 @@ final class InlineConfirmationManager
 
     public function for(Action $action): ?InlineConfirmationConfig
     {
-        return $this->configs[$action] ?? null;
+        return $this->configs[$action->getName()] ?? null;
     }
 
     public function renderOriginalAction(Action $action, bool $isLivewireClickHandlerEnabled = true): string
     {
         $config = $this->for($action);
+
+        if (!$config instanceof \Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationConfig) {
+            return $this->renderFallbackAction($action, $isLivewireClickHandlerEnabled);
+        }
+
         $clone = $action->getClone();
 
-        if ($config !== null) {
-            $clone->view($config->originalView);
-        }
+        Closure::bind(function () use ($clone, $config): void {
+            if ($config->originalView !== null) {
+                $clone->view = $config->originalView;
+            } else {
+                /** @phpstan-ignore unset.possiblyHookedProperty */
+                unset($clone->view);
+            }
+        }, null, $clone)();
+
+        $this->resetViewInstance($clone);
 
         $clone->livewireClickHandlerEnabled($isLivewireClickHandlerEnabled);
 
         return $clone->toHtml();
+    }
+
+    private function renderFallbackAction(Action $action, bool $isLivewireClickHandlerEnabled = true): string
+    {
+        $clone = $action->getClone();
+
+        Closure::bind(function () use ($clone): void {
+            /** @phpstan-ignore unset.possiblyHookedProperty */
+            unset($clone->view);
+        }, null, $clone)();
+
+        $this->resetViewInstance($clone);
+
+        $clone->livewireClickHandlerEnabled($isLivewireClickHandlerEnabled);
+
+        return $clone->toHtml();
+    }
+
+    private function resetViewInstance(Action $action): void
+    {
+        Closure::bind(
+            function (): void {
+                /** @phpstan-ignore unset.possiblyHookedProperty */
+                unset($this->viewInstance);
+            },
+            $action,
+            $action,
+        )();
     }
 }

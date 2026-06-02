@@ -12,10 +12,9 @@ it('adds a chainable inline confirmation macro to actions', function () {
 
 it('stores inline confirmation options', function () {
     $action = Action::make('deactivate')
-        ->inlineConfirmation(label: 'Yes, deactivate', timeout: 1500);
+        ->inlineConfirmation(timeout: 1500);
 
     $config = app(InlineConfirmationManager::class)->for($action);
 
-    expect($config->label)->toBe('Yes, deactivate')
-        ->and($config->timeout)->toBe(1500);
+    expect($config->timeout)->toBe(1500);
 });

@@ -1,6 +1,7 @@
 document.addEventListener('alpine:init', () => {
-    Alpine.data('inlineConfirmAction', ({ timeout, confirm }) => ({
+    Alpine.data('inlineConfirmAction', ({ timeout }) => ({
         armed: false,
+        processing: false,
         timer: null,
 
         arm() {
@@ -8,15 +9,15 @@ document.addEventListener('alpine:init', () => {
             this.timer = setTimeout(() => this.disarm(), timeout)
         },
 
-        confirm() {
-            clearTimeout(this.timer)
-            this.armed = false
-            confirm()
-        },
-
         disarm() {
             clearTimeout(this.timer)
             this.armed = false
+            this.processing = false
+        },
+
+        process() {
+            clearTimeout(this.timer)
+            this.processing = true
         },
     }))
 })

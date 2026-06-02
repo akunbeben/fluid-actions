@@ -13,7 +13,7 @@ final readonly class InlineConfirmationEligibility
 
     public function isEligible(Action $action): bool
     {
-        if ($this->manager->for($action) === null) {
+        if (!$this->manager->for($action) instanceof \Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationConfig) {
             return false;
         }
 
@@ -21,7 +21,7 @@ final readonly class InlineConfirmationEligibility
             return false;
         }
 
-        if ($action->getGroup() !== null) {
+        if ($action->getGroup() instanceof \Filament\Actions\ActionGroup) {
             return false;
         }
 
@@ -32,12 +32,7 @@ final readonly class InlineConfirmationEligibility
         if ($action->hasModalContent() || $action->hasModalContentFooter()) {
             return false;
         }
-
-        if (filled($action->getUrl()) || $action->shouldPostToUrl() || $action->canSubmitForm()) {
-            return false;
-        }
-
-        return true;
+        return !(filled($action->getUrl()) || $action->shouldPostToUrl() || $action->canSubmitForm());
     }
 
     private function hasSchema(Action $action): bool

@@ -22,7 +22,7 @@ class InlineConfirmServiceProvider extends PackageServiceProvider
     public function configurePackage(Package $package): void
     {
         $package->name(static::$name)
-            ->hasInstallCommand(function (InstallCommand $command) {
+            ->hasInstallCommand(function (InstallCommand $command): void {
                 $command
                     ->askToStarRepoOnGitHub('akunbeben/inline-confirm');
             });
