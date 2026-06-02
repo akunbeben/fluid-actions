@@ -4,6 +4,7 @@ namespace Akunbeben\InlineConfirm\InlineConfirmation;
 
 use Closure;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 
 final readonly class InlineConfirmationEligibility
 {
@@ -13,7 +14,7 @@ final readonly class InlineConfirmationEligibility
 
     public function isEligible(Action $action): bool
     {
-        if (!$this->manager->for($action) instanceof \Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationConfig) {
+        if (! $this->manager->for($action) instanceof InlineConfirmationConfig) {
             return false;
         }
 
@@ -21,7 +22,7 @@ final readonly class InlineConfirmationEligibility
             return false;
         }
 
-        if ($action->getGroup() instanceof \Filament\Actions\ActionGroup) {
+        if ($action->getGroup() instanceof ActionGroup) {
             return false;
         }
 
@@ -32,7 +33,8 @@ final readonly class InlineConfirmationEligibility
         if ($action->hasModalContent() || $action->hasModalContentFooter()) {
             return false;
         }
-        return !(filled($action->getUrl()) || $action->shouldPostToUrl() || $action->canSubmitForm());
+
+        return ! (filled($action->getUrl()) || $action->shouldPostToUrl() || $action->canSubmitForm());
     }
 
     private function hasSchema(Action $action): bool
