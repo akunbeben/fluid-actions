@@ -1,5 +1,7 @@
 # Inline confirmation for Filament Actions
 
+![Inline Confirm](art/banner.jpeg)
+
 Inline confirmation for selected Filament actions. The plugin replaces modal confirmation with a compact in-place confirmation interaction for actions that explicitly opt in.
 
 ## Installation
