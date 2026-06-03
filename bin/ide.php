@@ -20,10 +20,10 @@ final class IdeStubGenerator
         $stubContent = $this->buildStubContent($docblocks);
 
         if (file_put_contents($outputPath, $stubContent) === false) {
-            throw new RuntimeException("Failed to write IDE stub to [{$outputPath}].");
+            throw new RuntimeException(sprintf('Failed to write IDE stub to [%s].', $outputPath));
         }
 
-        echo "IDE helper stubs generated successfully at {$outputPath}\n";
+        echo sprintf('IDE helper stubs generated successfully at %s%s', $outputPath, PHP_EOL);
     }
 
     private function generateMethodDocblocks(): string
@@ -32,7 +32,11 @@ final class IdeStubGenerator
         $methods = [];
 
         foreach ($refClass->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-            if ($method->getName() === 'actionMacro' || ! $method->isStatic()) {
+            if ($method->getName() === 'actionMacro') {
+                continue;
+            }
+
+            if (! $method->isStatic()) {
                 continue;
             }
 
@@ -43,7 +47,7 @@ final class IdeStubGenerator
             $paramsList = $this->buildParametersList($closureRef);
             $returnType = $this->determineReturnType($closureRef);
 
-            $methods[] = "     * @method {$returnType} {$method->getName()}({$paramsList})";
+            $methods[] = sprintf('     * @method %s %s(%s)', $returnType, $method->getName(), $paramsList);
         }
 
         return implode("\n", $methods);
@@ -62,9 +66,10 @@ final class IdeStubGenerator
                 if ($type->allowsNull() && $typeStr !== 'mixed') {
                     $typeStr = '?' . $typeStr;
                 }
+
                 $typeStr .= ' ';
             } elseif ($type instanceof ReflectionUnionType) {
-                $types = array_map(fn ($t) => $t->getName(), $type->getTypes());
+                $types = array_map(fn (ReflectionIntersectionType | ReflectionNamedType $t) => $t->getName(), $type->getTypes());
                 $typeStr = implode('|', $types) . ' ';
             }
 
@@ -116,7 +121,7 @@ PHP;
 try {
     $generator = new IdeStubGenerator;
     $generator->generate(__DIR__ . '/../stubs/ide.php');
-} catch (Throwable $e) {
-    echo "Error generating stubs: {$e->getMessage()}\n";
+} catch (Throwable $throwable) {
+    echo sprintf('Error generating stubs: %s%s', $throwable->getMessage(), PHP_EOL);
     exit(1);
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Akunbeben\InlineConfirm;
 
 use Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationMacros;

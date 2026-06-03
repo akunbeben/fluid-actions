@@ -6,6 +6,7 @@
 build
 composer.lock
 coverage
+package-lock.json
 docs
 node_modules
 phpunit.xml

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Akunbeben\InlineConfirm\Tests;
 
 use Akunbeben\InlineConfirm\InlineConfirmServiceProvider;
@@ -45,7 +47,7 @@ class TestCase extends Orchestra
         return $providers;
     }
 
-    public function getEnvironmentSetUp($app): void
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('database.default', 'testing');
     }

@@ -48,7 +48,7 @@ jobs:
       - name: Cache PHPStan result
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
-          path: /tmp/phpstan
+          path: build/phpstan
           key: phpstan-${{ matrix.php }}-${{ matrix.laravel }}-${{ github.sha }}
           restore-keys: |
             phpstan-${{ matrix.php }}-${{ matrix.laravel }}-
