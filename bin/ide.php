@@ -36,7 +36,7 @@ final class IdeStubGenerator
                 continue;
             }
 
-            /** @var \Closure $closure */
+            /** @var Closure $closure */
             $closure = $method->invoke(null);
             $closureRef = new ReflectionFunction($closure);
 
@@ -64,7 +64,7 @@ final class IdeStubGenerator
                 }
                 $typeStr .= ' ';
             } elseif ($type instanceof ReflectionUnionType) {
-                $types = array_map(fn($t) => $t->getName(), $type->getTypes());
+                $types = array_map(fn ($t) => $t->getName(), $type->getTypes());
                 $typeStr = implode('|', $types) . ' ';
             }
 
@@ -114,7 +114,7 @@ PHP;
 }
 
 try {
-    $generator = new IdeStubGenerator();
+    $generator = new IdeStubGenerator;
     $generator->generate(__DIR__ . '/../stubs/ide.php');
 } catch (Throwable $e) {
     echo "Error generating stubs: {$e->getMessage()}\n";
