@@ -4,7 +4,6 @@ namespace Akunbeben\InlineConfirm\InlineConfirmation;
 
 use Closure;
 use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
 
 final readonly class InlineConfirmationEligibility
 {
@@ -19,10 +18,6 @@ final readonly class InlineConfirmationEligibility
         }
 
         if (! $action->isConfirmationRequired()) {
-            return false;
-        }
-
-        if ($action->getGroup() instanceof ActionGroup) {
             return false;
         }
 

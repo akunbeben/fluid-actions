@@ -13,10 +13,10 @@ For bugs, include:
 - Laravel and PHP versions.
 - Whether the action is a table row action, header/page action, bulk action, or another action type.
 - Whether the action uses `requiresConfirmation()` and `inlineConfirmation()`.
-- Whether the action has a schema/form, custom modal content, custom modal footer content, URL behavior, submit behavior, or is inside an `ActionGroup`.
+- Whether the action has a schema/form, custom modal content, custom modal footer content, URL behavior, or submit behavior.
 - A minimal action definition that reproduces the problem.
 
-For feature requests, explain the user workflow and why the current fallback behavior is not enough. Support for grouped/dropdown actions and richer inline copy are roadmap items, so proposals in those areas should include expected UX details.
+For feature requests, explain the user workflow and why the current fallback behavior is not enough. Support for richer inline copy is a roadmap item, so proposals in those areas should include expected UX details.
 
 ## Pull Requests
 
@@ -50,4 +50,4 @@ composer lint
 
 Avoid breaking public API without a clear versioning reason. This package follows SemVer once released.
 
-The v1 scope is confirmation-only, non-grouped actions. If your change expands that scope, include tests and documentation for the new supported action type.
+The v1 scope is confirmation-only actions. If your change expands that scope, include tests and documentation for the new supported action type.

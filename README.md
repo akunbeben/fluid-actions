@@ -46,9 +46,29 @@ Action::make('deactivate')
     ->inlineConfirmation(timeout: 3000);
 ```
 
+### Inside an ActionGroup
+
+Actions inside dropdown menus and button groups are also supported:
+
+```php
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
+
+ActionGroup::make([
+    Action::make('edit')->label('Edit'),
+    Action::make('delete')
+        ->label('Delete')
+        ->color('danger')
+        ->requiresConfirmation()
+        ->inlineConfirmation(),
+]);
+```
+
+When the user clicks a grouped action with inline confirmation, the dropdown stays open to show the confirmation state. On confirm, the action executes and the dropdown closes.
+
 ## Limitations
 
-Only confirmation-only, non-grouped actions are rendered inline in v1. Actions with forms, schemas, custom modal content, custom modal footer content, URL behavior, submit behavior, or dropdown grouping fall back to Filament's default modal behavior.
+Only confirmation-only actions are rendered inline. Actions with forms, schemas, custom modal content, custom modal footer content, URL behavior, or submit behavior fall back to Filament's default modal behavior.
 
 ## Testing
 

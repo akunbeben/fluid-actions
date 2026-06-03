@@ -14,7 +14,7 @@ it('requires both inline confirmation and requires confirmation', function () {
         ->and($eligibility->isEligible(Action::make('inline')->requiresConfirmation()->inlineConfirmation()))->toBeTrue();
 });
 
-it('falls back for modal content and grouped actions', function () {
+it('falls back for modal content', function () {
     $eligibility = app(InlineConfirmationEligibility::class);
 
     $withContent = Action::make('content')
@@ -22,13 +22,18 @@ it('falls back for modal content and grouped actions', function () {
         ->modalContent(new HtmlString('Important details'))
         ->inlineConfirmation();
 
+    expect($eligibility->isEligible($withContent))->toBeFalse();
+});
+
+it('is eligible for grouped actions', function () {
+    $eligibility = app(InlineConfirmationEligibility::class);
+
     $grouped = Action::make('grouped')
         ->requiresConfirmation()
         ->inlineConfirmation()
         ->group(ActionGroup::make([]));
 
-    expect($eligibility->isEligible($withContent))->toBeFalse()
-        ->and($eligibility->isEligible($grouped))->toBeFalse();
+    expect($eligibility->isEligible($grouped))->toBeTrue();
 });
 
 it('falls back for url and submit actions', function () {

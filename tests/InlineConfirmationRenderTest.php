@@ -2,6 +2,7 @@
 
 use Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationManager;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 
 it('renders eligible actions through the inline confirmation view', function () {
     $html = Action::make('deactivate')
@@ -52,4 +53,21 @@ it('renders the original action from a clone without reusing the inline view cac
 
     expect($html)->toContain('Deactivate')
         ->and($html)->not->toContain('x-data="inlineConfirmAction');
+});
+
+it('renders grouped actions through the inline confirmation view', function () {
+    $action = Action::make('delete')
+        ->label('Delete')
+        ->color('danger')
+        ->requiresConfirmation()
+        ->modalSubmitActionLabel('Confirm')
+        ->inlineConfirmation();
+
+    $action->group(ActionGroup::make([]));
+
+    $html = $action->toHtml();
+
+    expect($html)->toContain('x-data="inlineConfirmAction')
+        ->and($html)->toContain('Confirm')
+        ->and($html)->toContain('isGrouped: true');
 });

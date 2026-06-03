@@ -1,5 +1,5 @@
 document.addEventListener('alpine:init', () => {
-    Alpine.data('inlineConfirmAction', ({ timeout }) => ({
+    Alpine.data('inlineConfirmAction', ({ timeout, isGrouped = false }) => ({
         armed: false,
         processing: false,
         timer: null,
@@ -18,6 +18,16 @@ document.addEventListener('alpine:init', () => {
         process() {
             clearTimeout(this.timer)
             this.processing = true
+        },
+
+        closeDropdown() {
+            if (!isGrouped) return
+
+            const dropdown = this.$el.closest('[x-data*="filamentDropdown"]')
+
+            if (dropdown) {
+                Alpine.$data(dropdown).close()
+            }
         },
     }))
 })
