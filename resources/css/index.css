@@ -1,7 +1,6 @@
-/* ── Container ───────────────────────────────── */
-
 .ic-action {
     display: inline-grid;
+    position: relative;
     vertical-align: middle;
 }
 
@@ -29,7 +28,7 @@
 }
 
 .ic-confirm {
-    position: relative;
+    position: absolute;
     align-self: center;
     justify-self: center;
 
@@ -97,6 +96,84 @@
     }
 
     .ic-confirm.is-visible::after {
+        animation: none !important;
+    }
+}
+
+.htc-action {
+    display: inline-grid;
+    position: relative;
+    vertical-align: middle;
+}
+
+.htc-action > * {
+    grid-area: 1 / 1;
+}
+
+.htc-trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    z-index: 1;
+
+    transition:
+        transform 200ms cubic-bezier(0.32, 0.72, 0, 1),
+        filter 200ms cubic-bezier(0.32, 0.72, 0, 1);
+    transform-origin: center;
+}
+
+.htc-trigger.is-holding {
+    transform: scale(0.96);
+    filter: brightness(0.92);
+}
+
+.htc-trigger.is-processing {
+    opacity: 0.7;
+    pointer-events: none;
+    transition: opacity 200ms ease;
+}
+
+.htc-trigger::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: currentColor;
+    opacity: 0;
+    transform-origin: left;
+    transform: scaleX(0);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.htc-trigger.is-holding::after {
+    opacity: 0.3;
+    animation: htc-fill var(--htc-duration, 1500ms) linear forwards;
+}
+
+@keyframes htc-fill {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+}
+
+.fi-dropdown-list .htc-action {
+    display: grid;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .htc-trigger {
+        transition-duration: 0ms !important;
+        filter: none !important;
+        transform: none !important;
+    }
+
+    .htc-trigger.is-holding::after {
         animation: none !important;
     }
 }
