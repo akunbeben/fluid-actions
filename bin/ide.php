@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use Akunbeben\InlineConfirm\HoldToConfirm\HoldToConfirmMacros;
 use Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationMacros;
 
 final class IdeStubGenerator
@@ -12,6 +13,12 @@ final class IdeStubGenerator
         'Filament\Actions',
         'Filament\Tables\Actions',
         'Filament\Infolists\Components\Actions',
+    ];
+
+    /** @var list<class-string> */
+    private const MACRO_CLASSES = [
+        InlineConfirmationMacros::class,
+        HoldToConfirmMacros::class,
     ];
 
     public function generate(string $outputPath): void
@@ -28,26 +35,29 @@ final class IdeStubGenerator
 
     private function generateMethodDocblocks(): string
     {
-        $refClass = new ReflectionClass(InlineConfirmationMacros::class);
         $methods = [];
 
-        foreach ($refClass->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-            if ($method->getName() === 'actionMacro') {
-                continue;
+        foreach (self::MACRO_CLASSES as $macroClass) {
+            $refClass = new ReflectionClass($macroClass);
+
+            foreach ($refClass->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+                if ($method->getName() === 'actionMacro') {
+                    continue;
+                }
+
+                if (! $method->isStatic()) {
+                    continue;
+                }
+
+                /** @var Closure $closure */
+                $closure = $method->invoke(null);
+                $closureRef = new ReflectionFunction($closure);
+
+                $paramsList = $this->buildParametersList($closureRef);
+                $returnType = $this->determineReturnType($closureRef);
+
+                $methods[] = sprintf('     * @method %s %s(%s)', $returnType, $method->getName(), $paramsList);
             }
-
-            if (! $method->isStatic()) {
-                continue;
-            }
-
-            /** @var Closure $closure */
-            $closure = $method->invoke(null);
-            $closureRef = new ReflectionFunction($closure);
-
-            $paramsList = $this->buildParametersList($closureRef);
-            $returnType = $this->determineReturnType($closureRef);
-
-            $methods[] = sprintf('     * @method %s %s(%s)', $returnType, $method->getName(), $paramsList);
         }
 
         return implode("\n", $methods);
