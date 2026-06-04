@@ -46,6 +46,26 @@ Action::make('deactivate')
     ->inlineConfirmation(timeout: 3000);
 ```
 
+### Hold to Confirm
+
+Instead of showing a confirmation prompt, you can require the user to press and hold the button for a specific duration to execute the action:
+
+```php
+use Filament\Actions\Action;
+
+Action::make('delete')
+    ->color('danger')
+    ->holdToConfirm();
+```
+
+By default, the user must hold the button for `1500` milliseconds. You can customize the hold duration:
+
+```php
+Action::make('delete')
+    ->color('danger')
+    ->holdToConfirm(duration: 3000); // 3 seconds
+```
+
 ### Inside an ActionGroup
 
 Actions inside dropdown menus and button groups are also supported:
