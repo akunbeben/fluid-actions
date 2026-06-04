@@ -49,3 +49,17 @@ it('isolates configs for multiple actions in the same request', function (): voi
     expect($manager->for($first)->timeout)->toBe(1000)
         ->and($manager->for($second)->timeout)->toBe(5000);
 });
+
+it('retains configuration when the action is cloned', function (): void {
+    $action = Action::make('clone-test')
+        ->requiresConfirmation()
+        ->inlineConfirmation(timeout: 2500);
+
+    $clone = $action->getClone();
+
+    $config = app(InlineConfirmationManager::class)->for($clone);
+
+    expect($config)->not->toBeNull()
+        ->and($config->timeout)->toBe(2500)
+        ->and($clone->isInlineConfirmationEligible())->toBeTrue();
+});

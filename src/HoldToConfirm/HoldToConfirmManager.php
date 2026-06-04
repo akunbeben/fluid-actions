@@ -17,6 +17,11 @@ final class HoldToConfirmManager
         return 'inline-confirm::hold-to-confirm';
     }
 
+    protected function configKey(): string
+    {
+        return 'holdToConfirmConfig';
+    }
+
     protected function makeConfig(int $timing, ?string $originalView, bool | Closure | null $closeDropdown = null): HoldToConfirmConfig
     {
         return new HoldToConfirmConfig($timing, $originalView, $closeDropdown);
@@ -30,6 +35,6 @@ final class HoldToConfirmManager
     public function for(Action $action): ?HoldToConfirmConfig
     {
         /** @var ?HoldToConfirmConfig */
-        return $this->configFor($action->getName());
+        return $this->configFor($action);
     }
 }

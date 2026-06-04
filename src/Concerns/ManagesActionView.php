@@ -11,22 +11,21 @@ use Filament\Tables\Table;
 
 trait ManagesActionView
 {
-    /** @var array<string, object> */
-    private array $configs = [];
-
     abstract protected function viewName(): string;
 
     abstract protected function makeConfig(int $timing, ?string $originalView, bool | Closure | null $closeDropdown): object;
 
-    protected function configFor(string $name): ?object
+    abstract protected function configKey(): string;
+
+    protected function configFor(Action $action): ?object
     {
-        return $this->configs[$name] ?? null;
+        return $action->getViewData()[$this->configKey()] ?? null;
     }
 
     public function extractViewData(Action $action): array
     {
         $isGrouped = $action->getGroup() instanceof ActionGroup;
-        $config = $this->configFor($action->getName());
+        $config = $this->configFor($action);
         $originalView = $config->originalView ?? $action->getDefaultView();
 
         $viewComponent = match ($originalView) {
@@ -66,9 +65,10 @@ trait ManagesActionView
     protected function storeConfig(Action $action, int $timing, bool | Closure | null $closeDropdown = null): Action
     {
         $explicitView = Closure::bind(fn (): ?string => $this->view ?? null, $action, $action)();
-        $originalView = $this->configFor($action->getName())->originalView ?? $explicitView;
+        $originalView = $this->configFor($action)->originalView ?? $explicitView;
 
-        $this->configs[$action->getName()] = $this->makeConfig($timing, $originalView, $closeDropdown);
+        $config = $this->makeConfig($timing, $originalView, $closeDropdown);
+        $action->viewData([$this->configKey() => $config]);
 
         $action->view($this->viewName());
 
@@ -77,7 +77,7 @@ trait ManagesActionView
 
     public function renderOriginalAction(Action $action, bool $isLivewireClickHandlerEnabled = true): string
     {
-        $config = $this->configFor($action->getName());
+        $config = $this->configFor($action);
 
         if ($config === null) {
             return $this->renderFallbackAction($action, $isLivewireClickHandlerEnabled);

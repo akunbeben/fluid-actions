@@ -17,6 +17,11 @@ final class InlineConfirmationManager
         return 'inline-confirm::action';
     }
 
+    protected function configKey(): string
+    {
+        return 'inlineConfirmConfig';
+    }
+
     protected function makeConfig(int $timing, ?string $originalView, bool | Closure | null $closeDropdown = null): InlineConfirmationConfig
     {
         return new InlineConfirmationConfig($timing, $originalView, $closeDropdown);
@@ -30,6 +35,6 @@ final class InlineConfirmationManager
     public function for(Action $action): ?InlineConfirmationConfig
     {
         /** @var ?InlineConfirmationConfig */
-        return $this->configFor($action->getName());
+        return $this->configFor($action);
     }
 }

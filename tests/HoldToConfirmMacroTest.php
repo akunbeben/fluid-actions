@@ -47,3 +47,16 @@ it('isolates configs for multiple actions in the same request', function (): voi
     expect($manager->for($first)->duration)->toBe(1000)
         ->and($manager->for($second)->duration)->toBe(3000);
 });
+
+it('retains configuration when the action is cloned', function (): void {
+    $action = Action::make('clone-test')
+        ->holdToConfirm(duration: 2500);
+
+    $clone = $action->getClone();
+
+    $config = app(HoldToConfirmManager::class)->for($clone);
+
+    expect($config)->not->toBeNull()
+        ->and($config->duration)->toBe(2500)
+        ->and($clone->isHoldToConfirmEligible())->toBeTrue();
+});
