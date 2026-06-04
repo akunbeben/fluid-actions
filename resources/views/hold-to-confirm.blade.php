@@ -7,11 +7,9 @@
 @if (! $eligibility->isEligible($action))
     {!! $manager->renderOriginalAction($action) !!}
 @else
+    @include('inline-confirm::partials.resolve-action-view')
     @php
-        $mountHandler = $action->getLivewireClickHandler();
-        $confirmHandler = $action->getLivewireCallMountedActionName();
-        ['isGrouped' => $isGrouped, 'closeDropdown' => $closeDropdown, 'viewComponent' => $viewComponent, 'icon' => $icon] = $manager->extractViewData($action);
-
+        extract(view()->shared('resolved_action_view'));
         $clone = $action->getClone();
         $clone->extraAttributes([
             'class' => 'htc-trigger',
