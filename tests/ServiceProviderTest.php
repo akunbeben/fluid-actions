@@ -1,5 +1,6 @@
 <?php
 
+use Akunbeben\InlineConfirm\HoldToConfirm\HoldToConfirmManager;
 use Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationManager;
 use Akunbeben\InlineConfirm\InlineConfirmServiceProvider;
 use Filament\Actions\Action;
@@ -33,7 +34,16 @@ it('registers InlineConfirmationManager as a singleton', function (): void {
     expect($first)->toBe($second);
 });
 
+it('registers HoldToConfirmManager as a singleton', function (): void {
+    $first = app(HoldToConfirmManager::class);
+    $second = app(HoldToConfirmManager::class);
+
+    expect($first)->toBe($second);
+});
+
 it('registers macros on the Action class', function (): void {
     expect(Action::hasMacro('inlineConfirmation'))->toBeTrue()
-        ->and(Action::hasMacro('isInlineConfirmationEligible'))->toBeTrue();
+        ->and(Action::hasMacro('isInlineConfirmationEligible'))->toBeTrue()
+        ->and(Action::hasMacro('holdToConfirm'))->toBeTrue()
+        ->and(Action::hasMacro('isHoldToConfirmEligible'))->toBeTrue();
 });

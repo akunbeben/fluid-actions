@@ -2,26 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Akunbeben\InlineConfirm\InlineConfirmation;
+namespace Akunbeben\InlineConfirm\HoldToConfirm;
 
 use Akunbeben\InlineConfirm\Concerns\ChecksActionEligibility;
 use Filament\Actions\Action;
 
-final readonly class InlineConfirmationEligibility
+final readonly class HoldToConfirmEligibility
 {
     use ChecksActionEligibility;
 
     public function __construct(
-        private InlineConfirmationManager $manager,
+        private HoldToConfirmManager $manager,
     ) {}
 
     public function isEligible(Action $action): bool
     {
-        if (! $this->manager->for($action) instanceof InlineConfirmationConfig) {
-            return false;
-        }
-
-        if (! $action->isConfirmationRequired()) {
+        if (! $this->manager->for($action) instanceof HoldToConfirmConfig) {
             return false;
         }
 

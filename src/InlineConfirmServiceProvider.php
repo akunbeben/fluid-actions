@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Akunbeben\InlineConfirm;
 
+use Akunbeben\InlineConfirm\HoldToConfirm\HoldToConfirmMacros;
+use Akunbeben\InlineConfirm\HoldToConfirm\HoldToConfirmManager;
 use Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationMacros;
 use Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationManager;
 use Filament\Actions\Action;
@@ -41,12 +43,16 @@ class InlineConfirmServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         $this->app->singleton(InlineConfirmationManager::class);
+        $this->app->singleton(HoldToConfirmManager::class);
     }
 
     public function packageBooted(): void
     {
         Action::macro('inlineConfirmation', InlineConfirmationMacros::inlineConfirmation());
         Action::macro('isInlineConfirmationEligible', InlineConfirmationMacros::isInlineConfirmationEligible());
+
+        Action::macro('holdToConfirm', HoldToConfirmMacros::holdToConfirm());
+        Action::macro('isHoldToConfirmEligible', HoldToConfirmMacros::isHoldToConfirmEligible());
 
         // Asset Registration
         FilamentAsset::register(

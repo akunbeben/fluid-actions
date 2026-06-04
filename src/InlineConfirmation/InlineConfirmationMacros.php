@@ -11,7 +11,7 @@ final class InlineConfirmationMacros
 {
     public static function inlineConfirmation(): Closure
     {
-        return self::actionMacro(fn (int $timeout = 3000): Action => app(InlineConfirmationManager::class)->enable($this, $timeout));
+        return self::actionMacro(fn (int $timeout = 3000, bool | Closure | null $closeDropdown = null): Action => app(InlineConfirmationManager::class)->enable($this, $timeout, $closeDropdown));
     }
 
     public static function isInlineConfirmationEligible(): Closure
