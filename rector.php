@@ -26,6 +26,7 @@ return RectorConfig::configure()
         __DIR__ . '/tests',
     ])
     ->withSkip([
+        __DIR__ . '/stubs/ide.php',
         MakeInheritedMethodVisibilitySameAsParentRector::class,
     ])
     ->withPreparedSets(

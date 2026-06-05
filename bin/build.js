@@ -46,15 +46,15 @@ const defaultOptions = {
 compile({
     ...defaultOptions,
     entryPoints: ['./resources/js/index.js'],
-    outfile: './resources/dist/inline-confirm.js',
+    outfile: './resources/dist/fluid-actions.js',
 }).then(() => {
-    console.log(`Build completed for inline-confirm.js`)
+    console.log(`Build completed for fluid-actions.js`)
 })
 
 compile({
     ...defaultOptions,
     entryPoints: ['./resources/css/index.css'],
-    outfile: './resources/dist/inline-confirm.css',
+    outfile: './resources/dist/fluid-actions.css',
 }).then(() => {
-    console.log(`Build completed for inline-confirm.css`)
+    console.log(`Build completed for fluid-actions.css`)
 })
