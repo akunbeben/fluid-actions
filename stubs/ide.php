@@ -6,9 +6,9 @@ declare(strict_types=1);
 
 namespace Filament\Actions {
     /**
-     * @method static inlineConfirmation(int $timeout = 3000, Closure|bool|null $closeDropdown = NULL)
+     * @method static inlineConfirmation(int $timeout = 3000, \Closure|bool|null $closeDropdown = NULL)
      * @method bool isInlineConfirmationEligible()
-     * @method static holdToConfirm(int $duration = 1500, Closure|bool|null $closeDropdown = NULL)
+     * @method static holdToConfirm(int $duration = 1500, \Closure|bool|null $closeDropdown = NULL)
      * @method bool isHoldToConfirmEligible()
      */
     class Action {}
@@ -16,9 +16,9 @@ namespace Filament\Actions {
 
 namespace Filament\Tables\Actions {
     /**
-     * @method static inlineConfirmation(int $timeout = 3000, Closure|bool|null $closeDropdown = NULL)
+     * @method static inlineConfirmation(int $timeout = 3000, \Closure|bool|null $closeDropdown = NULL)
      * @method bool isInlineConfirmationEligible()
-     * @method static holdToConfirm(int $duration = 1500, Closure|bool|null $closeDropdown = NULL)
+     * @method static holdToConfirm(int $duration = 1500, \Closure|bool|null $closeDropdown = NULL)
      * @method bool isHoldToConfirmEligible()
      */
     class Action {}
@@ -26,9 +26,9 @@ namespace Filament\Tables\Actions {
 
 namespace Filament\Infolists\Components\Actions {
     /**
-     * @method static inlineConfirmation(int $timeout = 3000, Closure|bool|null $closeDropdown = NULL)
+     * @method static inlineConfirmation(int $timeout = 3000, \Closure|bool|null $closeDropdown = NULL)
      * @method bool isInlineConfirmationEligible()
-     * @method static holdToConfirm(int $duration = 1500, Closure|bool|null $closeDropdown = NULL)
+     * @method static holdToConfirm(int $duration = 1500, \Closure|bool|null $closeDropdown = NULL)
      * @method bool isHoldToConfirmEligible()
      */
     class Action {}

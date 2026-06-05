@@ -1,5 +1,5 @@
 {
-    "name": "akunbeben/inline-confirm",
+    "name": "akunbeben/fluid-actions",
     "description": "Inline confirmation for Filament Actions",
     "keywords": [
         "akunbeben",
@@ -7,12 +7,12 @@
         "filamentphp",
         "filament",
         "filament-plugin",
-        "inline-confirm"
+        "fluid-actions"
     ],
-    "homepage": "https://github.com/akunbeben/inline-confirm",
+    "homepage": "https://github.com/akunbeben/fluid-actions",
     "support": {
-        "issues": "https://github.com/akunbeben/inline-confirm/issues",
-        "source": "https://github.com/akunbeben/inline-confirm"
+        "issues": "https://github.com/akunbeben/fluid-actions/issues",
+        "source": "https://github.com/akunbeben/fluid-actions"
     },
     "license": "MIT",
     "authors": [
@@ -39,12 +39,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Akunbeben\\InlineConfirm\\": "src/"
+            "Akunbeben\\FluidActions\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Akunbeben\\InlineConfirm\\Tests\\": "tests/"
+            "Akunbeben\\FluidActions\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -60,7 +60,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Akunbeben\\InlineConfirm\\InlineConfirmServiceProvider"
+                "Akunbeben\\FluidActions\\FluidActionsServiceProvider"
             ]
         }
     },

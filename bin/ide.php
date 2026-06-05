@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Akunbeben\InlineConfirm\HoldToConfirm\HoldToConfirmMacros;
-use Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationMacros;
+use Akunbeben\FluidActions\HoldToConfirm\HoldToConfirmMacros;
+use Akunbeben\FluidActions\InlineConfirmation\InlineConfirmationMacros;
 
 final class IdeStubGenerator
 {
@@ -72,14 +72,20 @@ final class IdeStubGenerator
             $typeStr = '';
 
             if ($type instanceof ReflectionNamedType) {
-                $typeStr = $type->getName();
+                $typeStr = (! $type->isBuiltin() && $type->getName() !== 'static' && $type->getName() !== 'self') ? '\\' . $type->getName() : $type->getName();
                 if ($type->allowsNull() && $typeStr !== 'mixed') {
                     $typeStr = '?' . $typeStr;
                 }
 
                 $typeStr .= ' ';
             } elseif ($type instanceof ReflectionUnionType) {
-                $types = array_map(fn (ReflectionIntersectionType | ReflectionNamedType $t) => $t->getName(), $type->getTypes());
+                $types = array_map(function (ReflectionIntersectionType | ReflectionNamedType $t) {
+                    if ($t instanceof ReflectionNamedType && ! $t->isBuiltin() && $t->getName() !== 'static' && $t->getName() !== 'self') {
+                        return '\\' . $t->getName();
+                    }
+
+                    return method_exists($t, 'getName') ? $t->getName() : (string) $t;
+                }, $type->getTypes());
                 $typeStr = implode('|', $types) . ' ';
             }
 

@@ -9,16 +9,16 @@ Inline confirmation for selected Filament actions. The plugin replaces modal con
 You can install the package via composer:
 
 ```bash
-composer require akunbeben/inline-confirm
+composer require akunbeben/fluid-actions
 ```
 
 Register the plugin in your Filament panel:
 
 ```php
-use Akunbeben\InlineConfirm\InlineConfirmPlugin;
+use Akunbeben\FluidActions\FluidActionsPlugin;
 
 $panel
-    ->plugin(InlineConfirmPlugin::make());
+    ->plugin(FluidActionsPlugin::make());
 ```
 
 ## Usage
@@ -111,7 +111,7 @@ Please review [our security policy](.github/SECURITY.md) on how to report securi
 ## Credits
 
 - [Benny Rahmat](https://github.com/akunbeben)
-- [All Contributors](https://github.com/akunbeben/inline-confirm/graphs/contributors)
+- [All Contributors](https://github.com/akunbeben/fluid-actions/graphs/contributors)
 
 ## License
 

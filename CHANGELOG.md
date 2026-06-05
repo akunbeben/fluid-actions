@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `inline-confirm` will be documented in this file.
+All notable changes to `fluid-actions` will be documented in this file.
 
 ## v0.3.0 - 2026-06-04
 
