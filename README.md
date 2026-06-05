@@ -2,15 +2,19 @@
 
 ![Fluid Actions](art/banner.jpeg)
 
-Fluid Actions is a Filament plugin that adds compact confirmation interactions to actions, such as inline confirmation and hold-to-confirm, so simple actions do not always need to open a confirmation modal.
+Make Filament Actions feel fluid.
 
-## Features
+Fluid Actions is a UX toolkit for Filament Actions. It provides beautiful, flexible interaction components that help you design action flows that feel more intentional, contextual, and delightful.
 
-- Inline confirmation for actions that already use `requiresConfirmation()`
-- Hold-to-confirm actions without opening a modal
-- Support for actions inside `ActionGroup` dropdowns and button groups
-- Automatic fallback to Filament's default behavior for complex actions
-- Per-action configuration for timeout, hold duration, and dropdown closing behavior
+Actions should match the context in which they are used. Some actions need confirmation, some need hesitation, some need quick feedback, and some should stay lightweight. Fluid Actions gives you more ways to shape those interactions.
+
+## Available interactions
+
+- **Inline confirmation** — confirm an action directly in place
+- **Hold to confirm** — require users to press and hold before executing an action
+- **ActionGroup support** — works inside dropdown menus and grouped actions
+- **Smart fallback** — complex actions continue using Filament's default behavior
+- **Per-action configuration** — customize timeout, hold duration, and dropdown behavior
 
 ## Installation
 
@@ -31,7 +35,7 @@ $panel
 
 ## Inline confirmation
 
-Use inline confirmation when you still want Filament's confirmation semantics, but want the confirmation to appear directly in place instead of inside a modal.
+Use inline confirmation when an action needs explicit confirmation, but the interaction should stay lightweight and close to the action itself.
 
 ```php
 use Filament\Actions\Action;
@@ -60,7 +64,7 @@ The timeout is in milliseconds. The default is `3000`.
 
 ## Hold to confirm
 
-Use hold-to-confirm when you want the user to press and hold the action before it executes.
+Use hold-to-confirm when an action should require a more deliberate gesture before it executes.
 
 ```php
 use Filament\Actions\Action;
@@ -131,7 +135,7 @@ Action::make('delete')
 
 ## Eligibility and fallback behavior
 
-Fluid Actions only renders simple action confirmations inline. If an action needs Filament's modal or submit behavior, it automatically falls back to the original Filament action rendering.
+Fluid Actions is designed to enhance simple action interactions without breaking Filament's built-in action flows. If an action needs Filament's modal or submit behavior, it automatically falls back to the original Filament action rendering.
 
 Actions fall back when they have:
 
