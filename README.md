@@ -2,7 +2,7 @@
 
 ![Fluid Actions](art/banner.jpeg)
 
-Fluid Actions adds compact, in-place confirmation interactions to Filament actions. It helps you avoid confirmation modals for simple, destructive, or high-friction actions while still requiring explicit user intent.
+Fluid Actions is a Filament plugin that adds compact confirmation interactions to actions, such as inline confirmation and hold-to-confirm, so simple actions do not always need to open a confirmation modal.
 
 ## Features
 
