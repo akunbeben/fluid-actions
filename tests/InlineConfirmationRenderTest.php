@@ -1,6 +1,6 @@
 <?php
 
-use Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationManager;
+use Akunbeben\FluidActions\InlineConfirmation\InlineConfirmationManager;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 

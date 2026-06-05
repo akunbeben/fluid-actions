@@ -1,13 +1,13 @@
 @php
-    $manager = app(\Akunbeben\InlineConfirm\HoldToConfirm\HoldToConfirmManager::class);
-    $eligibility = app(\Akunbeben\InlineConfirm\HoldToConfirm\HoldToConfirmEligibility::class);
+    $manager = app(\Akunbeben\FluidActions\HoldToConfirm\HoldToConfirmManager::class);
+    $eligibility = app(\Akunbeben\FluidActions\HoldToConfirm\HoldToConfirmEligibility::class);
     $config = $manager->for($action);
 @endphp
 
 @if (! $eligibility->isEligible($action))
     {!! $manager->renderOriginalAction($action) !!}
 @else
-    @include('inline-confirm::partials.resolve-action-view')
+    @include('fluid-actions::partials.resolve-action-view')
     @php
         extract(view()->shared('resolved_action_view'));
         $clone = $action->getClone();

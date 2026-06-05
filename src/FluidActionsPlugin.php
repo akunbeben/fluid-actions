@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Akunbeben\InlineConfirm;
+namespace Akunbeben\FluidActions;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
-class InlineConfirmPlugin implements Plugin
+class FluidActionsPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'inline-confirm';
+        return 'fluid-actions';
     }
 
     public function register(Panel $panel): void

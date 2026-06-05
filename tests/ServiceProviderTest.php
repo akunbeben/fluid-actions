@@ -1,30 +1,30 @@
 <?php
 
-use Akunbeben\InlineConfirm\HoldToConfirm\HoldToConfirmManager;
-use Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationManager;
-use Akunbeben\InlineConfirm\InlineConfirmServiceProvider;
+use Akunbeben\FluidActions\FluidActionsServiceProvider;
+use Akunbeben\FluidActions\HoldToConfirm\HoldToConfirmManager;
+use Akunbeben\FluidActions\InlineConfirmation\InlineConfirmationManager;
 use Filament\Actions\Action;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 
 it('registers the package service provider', function (): void {
-    expect(app()->getProvider(InlineConfirmServiceProvider::class))
-        ->toBeInstanceOf(InlineConfirmServiceProvider::class);
+    expect(app()->getProvider(FluidActionsServiceProvider::class))
+        ->toBeInstanceOf(FluidActionsServiceProvider::class);
 });
 
 it('registers inline confirmation assets', function (): void {
-    $provider = app()->getProvider(InlineConfirmServiceProvider::class);
+    $provider = app()->getProvider(FluidActionsServiceProvider::class);
     $method = new ReflectionMethod($provider, 'getAssets');
 
     $assets = $method->invoke($provider);
 
     expect($assets)->toHaveCount(2)
         ->and($assets[0])->toBeInstanceOf(Css::class)
-        ->and($assets[0]->getId())->toBe('inline-confirm-styles')
-        ->and($assets[0]->getPath())->toEndWith('/resources/dist/inline-confirm.css')
+        ->and($assets[0]->getId())->toBe('fluid-actions-styles')
+        ->and($assets[0]->getPath())->toEndWith('/resources/dist/fluid-actions.css')
         ->and($assets[1])->toBeInstanceOf(Js::class)
-        ->and($assets[1]->getId())->toBe('inline-confirm-scripts')
-        ->and($assets[1]->getPath())->toEndWith('/resources/dist/inline-confirm.js');
+        ->and($assets[1]->getId())->toBe('fluid-actions-scripts')
+        ->and($assets[1]->getPath())->toEndWith('/resources/dist/fluid-actions.js');
 });
 
 it('registers InlineConfirmationManager as a singleton', function (): void {

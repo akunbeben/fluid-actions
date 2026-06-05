@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akunbeben\InlineConfirm\HoldToConfirm;
+namespace Akunbeben\FluidActions\HoldToConfirm;
 
-use Akunbeben\InlineConfirm\Concerns\ChecksActionEligibility;
+use Akunbeben\FluidActions\Concerns\ChecksActionEligibility;
 use Filament\Actions\Action;
 
 final readonly class HoldToConfirmEligibility

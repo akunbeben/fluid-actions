@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akunbeben\InlineConfirm\Concerns;
+namespace Akunbeben\FluidActions\Concerns;
 
 use Closure;
 use Filament\Actions\Action;
@@ -13,7 +13,7 @@ trait ManagesActionView
 {
     abstract protected function viewName(): string;
 
-    abstract protected function makeConfig(int $timing, ?string $originalView, bool | Closure | null $closeDropdown): object;
+    abstract protected function makeConfig(mixed ...$args): object;
 
     abstract protected function configKey(): string;
 
@@ -62,12 +62,14 @@ trait ManagesActionView
         ];
     }
 
-    protected function storeConfig(Action $action, int $timing, bool | Closure | null $closeDropdown = null): Action
+    protected function storeConfig(Action $action, mixed ...$args): Action
     {
         $explicitView = Closure::bind(fn (): ?string => $this->view ?? null, $action, $action)();
-        $originalView = $this->configFor($action)->originalView ?? $explicitView;
+        $currentConfig = $this->configFor($action);
+        $originalView = $currentConfig->originalView ?? $explicitView;
 
-        $config = $this->makeConfig($timing, $originalView, $closeDropdown);
+        $timing = array_shift($args);
+        $config = $this->makeConfig($timing, $originalView, ...$args);
         $action->viewData([$this->configKey() => $config]);
 
         $action->view($this->viewName());

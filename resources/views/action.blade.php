@@ -1,13 +1,13 @@
 @php
-    $manager = app(\Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationManager::class);
-    $eligibility = app(\Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationEligibility::class);
+    $manager = app(\Akunbeben\FluidActions\InlineConfirmation\InlineConfirmationManager::class);
+    $eligibility = app(\Akunbeben\FluidActions\InlineConfirmation\InlineConfirmationEligibility::class);
     $config = $manager->for($action);
 @endphp
 
 @if (! $eligibility->isEligible($action))
     {!! $manager->renderOriginalAction($action) !!}
 @else
-    @include('inline-confirm::partials.resolve-action-view')
+    @include('fluid-actions::partials.resolve-action-view')
     @php
         extract(view()->shared('resolved_action_view'));
     @endphp

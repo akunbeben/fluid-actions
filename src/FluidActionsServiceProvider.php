@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Akunbeben\InlineConfirm;
+namespace Akunbeben\FluidActions;
 
-use Akunbeben\InlineConfirm\HoldToConfirm\HoldToConfirmMacros;
-use Akunbeben\InlineConfirm\HoldToConfirm\HoldToConfirmManager;
-use Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationMacros;
-use Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationManager;
+use Akunbeben\FluidActions\HoldToConfirm\HoldToConfirmMacros;
+use Akunbeben\FluidActions\HoldToConfirm\HoldToConfirmManager;
+use Akunbeben\FluidActions\InlineConfirmation\InlineConfirmationMacros;
+use Akunbeben\FluidActions\InlineConfirmation\InlineConfirmationManager;
 use Filament\Actions\Action;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
@@ -17,18 +17,18 @@ use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class InlineConfirmServiceProvider extends PackageServiceProvider
+class FluidActionsServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'inline-confirm';
+    public static string $name = 'fluid-actions';
 
-    public static string $viewNamespace = 'inline-confirm';
+    public static string $viewNamespace = 'fluid-actions';
 
     public function configurePackage(Package $package): void
     {
         $package->name(static::$name)
             ->hasInstallCommand(function (InstallCommand $command): void {
                 $command
-                    ->askToStarRepoOnGitHub('akunbeben/inline-confirm');
+                    ->askToStarRepoOnGitHub('akunbeben/fluid-actions');
             });
 
         if (file_exists($package->basePath('/../resources/lang'))) {
@@ -54,7 +54,6 @@ class InlineConfirmServiceProvider extends PackageServiceProvider
         Action::macro('holdToConfirm', HoldToConfirmMacros::holdToConfirm());
         Action::macro('isHoldToConfirmEligible', HoldToConfirmMacros::isHoldToConfirmEligible());
 
-        // Asset Registration
         FilamentAsset::register(
             $this->getAssets(),
             $this->getAssetPackageName()
@@ -63,7 +62,7 @@ class InlineConfirmServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'akunbeben/inline-confirm';
+        return 'akunbeben/fluid-actions';
     }
 
     /**
@@ -72,8 +71,8 @@ class InlineConfirmServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            Css::make('inline-confirm-styles', __DIR__ . '/../resources/dist/inline-confirm.css'),
-            Js::make('inline-confirm-scripts', __DIR__ . '/../resources/dist/inline-confirm.js'),
+            Css::make('fluid-actions-styles', __DIR__ . '/../resources/dist/fluid-actions.css'),
+            Js::make('fluid-actions-scripts', __DIR__ . '/../resources/dist/fluid-actions.js'),
         ];
     }
 }

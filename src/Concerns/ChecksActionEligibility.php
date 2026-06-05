@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akunbeben\InlineConfirm\Concerns;
+namespace Akunbeben\FluidActions\Concerns;
 
 use Closure;
 use Filament\Actions\Action;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akunbeben\InlineConfirm\InlineConfirmation;
+namespace Akunbeben\FluidActions\InlineConfirmation;
 
-use Akunbeben\InlineConfirm\Concerns\ChecksActionEligibility;
+use Akunbeben\FluidActions\Concerns\ChecksActionEligibility;
 use Filament\Actions\Action;
 
 final readonly class InlineConfirmationEligibility

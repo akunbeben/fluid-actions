@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akunbeben\InlineConfirm\InlineConfirmation;
+namespace Akunbeben\FluidActions\InlineConfirmation;
 
-use Akunbeben\InlineConfirm\Concerns\ManagesActionView;
+use Akunbeben\FluidActions\Concerns\ManagesActionView;
 use Closure;
 use Filament\Actions\Action;
 
@@ -14,7 +14,7 @@ final class InlineConfirmationManager
 
     protected function viewName(): string
     {
-        return 'inline-confirm::action';
+        return 'fluid-actions::action';
     }
 
     protected function configKey(): string
@@ -22,8 +22,12 @@ final class InlineConfirmationManager
         return 'inlineConfirmConfig';
     }
 
-    protected function makeConfig(int $timing, ?string $originalView, bool | Closure | null $closeDropdown = null): InlineConfirmationConfig
+    protected function makeConfig(mixed ...$args): InlineConfirmationConfig
     {
+        $timing = $args[0];
+        $originalView = $args[1] ?? null;
+        $closeDropdown = $args[2] ?? null;
+
         return new InlineConfirmationConfig($timing, $originalView, $closeDropdown);
     }
 

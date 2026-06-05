@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akunbeben\InlineConfirm\HoldToConfirm;
+namespace Akunbeben\FluidActions\HoldToConfirm;
 
 use Closure;
 

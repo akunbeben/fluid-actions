@@ -1,6 +1,6 @@
 <?php
 
-use Akunbeben\InlineConfirm\HoldToConfirm\HoldToConfirmEligibility;
+use Akunbeben\FluidActions\HoldToConfirm\HoldToConfirmEligibility;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\TextInput;

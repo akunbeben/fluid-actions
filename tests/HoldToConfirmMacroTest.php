@@ -1,6 +1,6 @@
 <?php
 
-use Akunbeben\InlineConfirm\HoldToConfirm\HoldToConfirmManager;
+use Akunbeben\FluidActions\HoldToConfirm\HoldToConfirmManager;
 use Filament\Actions\Action;
 
 it('adds a chainable holdToConfirm macro to actions', function (): void {
@@ -12,11 +12,22 @@ it('adds a chainable holdToConfirm macro to actions', function (): void {
 
 it('stores hold to confirm options', function (): void {
     $action = Action::make('danger')
-        ->holdToConfirm(duration: 2500);
+        ->holdToConfirm(duration: 2500, closeDropdown: false);
 
     $config = app(HoldToConfirmManager::class)->for($action);
 
-    expect($config->duration)->toBe(2500);
+    expect($config->duration)->toBe(2500)
+        ->and($config->closeDropdown)->toBeFalse();
+});
+
+it('stores the original explicit view', function (): void {
+    $action = Action::make('icon')
+        ->view('filament::components.icon-button')
+        ->holdToConfirm();
+
+    $config = app(HoldToConfirmManager::class)->for($action);
+
+    expect($config->originalView)->toBe('filament::components.icon-button');
 });
 
 it('uses the default duration of 1500ms', function (): void {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akunbeben\InlineConfirm\Tests;
+namespace Akunbeben\FluidActions\Tests;
 
-use Akunbeben\InlineConfirm\InlineConfirmServiceProvider;
+use Akunbeben\FluidActions\FluidActionsServiceProvider;
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
 use Filament\Actions\ActionsServiceProvider;
@@ -39,7 +39,7 @@ class TestCase extends Orchestra
             SupportServiceProvider::class,
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
-            InlineConfirmServiceProvider::class,
+            FluidActionsServiceProvider::class,
         ];
 
         sort($providers);

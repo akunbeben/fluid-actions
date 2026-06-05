@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Akunbeben\InlineConfirm\HoldToConfirm;
+namespace Akunbeben\FluidActions\HoldToConfirm;
 
-use Akunbeben\InlineConfirm\Concerns\ManagesActionView;
+use Akunbeben\FluidActions\Concerns\ManagesActionView;
 use Closure;
 use Filament\Actions\Action;
 
@@ -14,7 +14,7 @@ final class HoldToConfirmManager
 
     protected function viewName(): string
     {
-        return 'inline-confirm::hold-to-confirm';
+        return 'fluid-actions::hold-to-confirm';
     }
 
     protected function configKey(): string
@@ -22,8 +22,12 @@ final class HoldToConfirmManager
         return 'holdToConfirmConfig';
     }
 
-    protected function makeConfig(int $timing, ?string $originalView, bool | Closure | null $closeDropdown = null): HoldToConfirmConfig
+    protected function makeConfig(mixed ...$args): HoldToConfirmConfig
     {
+        $timing = $args[0];
+        $originalView = $args[1] ?? null;
+        $closeDropdown = $args[2] ?? null;
+
         return new HoldToConfirmConfig($timing, $originalView, $closeDropdown);
     }
 

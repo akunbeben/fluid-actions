@@ -1,6 +1,6 @@
 <?php
 
-use Akunbeben\InlineConfirm\InlineConfirmation\InlineConfirmationManager;
+use Akunbeben\FluidActions\InlineConfirmation\InlineConfirmationManager;
 use Filament\Actions\Action;
 
 it('adds a chainable inline confirmation macro to actions', function (): void {
@@ -12,11 +12,22 @@ it('adds a chainable inline confirmation macro to actions', function (): void {
 
 it('stores inline confirmation options', function (): void {
     $action = Action::make('deactivate')
-        ->inlineConfirmation(timeout: 1500);
+        ->inlineConfirmation(timeout: 1500, closeDropdown: false);
 
     $config = app(InlineConfirmationManager::class)->for($action);
 
-    expect($config->timeout)->toBe(1500);
+    expect($config->timeout)->toBe(1500)
+        ->and($config->closeDropdown)->toBeFalse();
+});
+
+it('stores the original explicit view', function (): void {
+    $action = Action::make('icon')
+        ->view('filament::components.icon-button')
+        ->inlineConfirmation();
+
+    $config = app(InlineConfirmationManager::class)->for($action);
+
+    expect($config->originalView)->toBe('filament::components.icon-button');
 });
 
 it('uses the default timeout of 3000ms', function (): void {
