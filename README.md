@@ -1,12 +1,20 @@
-# Inline confirmation for Filament Actions
+# Fluid Actions for Filament
 
-![Inline Confirm](art/banner.jpeg)
+![Fluid Actions](art/banner.jpeg)
 
-Inline confirmation for selected Filament actions. The plugin replaces modal confirmation with a compact in-place confirmation interaction for actions that explicitly opt in.
+Fluid Actions adds compact, in-place confirmation interactions to Filament actions. It helps you avoid confirmation modals for simple, destructive, or high-friction actions while still requiring explicit user intent.
+
+## Features
+
+- Inline confirmation for actions that already use `requiresConfirmation()`
+- Hold-to-confirm actions without opening a modal
+- Support for actions inside `ActionGroup` dropdowns and button groups
+- Automatic fallback to Filament's default behavior for complex actions
+- Per-action configuration for timeout, hold duration, and dropdown closing behavior
 
 ## Installation
 
-You can install the package via composer:
+Install the package via Composer:
 
 ```bash
 composer require akunbeben/fluid-actions
@@ -21,34 +29,38 @@ $panel
     ->plugin(FluidActionsPlugin::make());
 ```
 
-## Usage
+## Inline confirmation
 
-Opt in per action:
+Use inline confirmation when you still want Filament's confirmation semantics, but want the confirmation to appear directly in place instead of inside a modal.
 
 ```php
 use Filament\Actions\Action;
 
 Action::make('deactivate')
+    ->color('danger')
     ->requiresConfirmation()
     ->inlineConfirmation();
 ```
 
-`inlineConfirmation()` only changes how confirmation is presented. It does not imply `requiresConfirmation()`, so both methods are required.
+> `inlineConfirmation()` does not call `requiresConfirmation()` for you. You must explicitly use both methods.
 
-Custom confirmation label and timeout:
+### Custom label and timeout
+
+The inline confirmation button uses Filament's modal submit action label.
 
 ```php
-use Filament\Actions\Action;
-
 Action::make('deactivate')
+    ->color('danger')
     ->requiresConfirmation()
     ->modalSubmitActionLabel('Confirm')
     ->inlineConfirmation(timeout: 3000);
 ```
 
-### Hold to Confirm
+The timeout is in milliseconds. The default is `3000`.
 
-Instead of showing a confirmation prompt, you can require the user to press and hold the button for a specific duration to execute the action:
+## Hold to confirm
+
+Use hold-to-confirm when you want the user to press and hold the action before it executes.
 
 ```php
 use Filament\Actions\Action;
@@ -58,24 +70,28 @@ Action::make('delete')
     ->holdToConfirm();
 ```
 
-By default, the user must hold the button for `1500` milliseconds. You can customize the hold duration:
+By default, the user must hold the action for `1500` milliseconds.
 
 ```php
 Action::make('delete')
     ->color('danger')
-    ->holdToConfirm(duration: 3000); // 3 seconds
+    ->holdToConfirm(duration: 3000);
 ```
 
-### Inside an ActionGroup
+Unlike inline confirmation, `holdToConfirm()` does not require `requiresConfirmation()`.
 
-Actions inside dropdown menus and button groups are also supported:
+## Actions inside groups
+
+Fluid Actions supports actions inside dropdowns and button groups.
 
 ```php
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 
 ActionGroup::make([
-    Action::make('edit')->label('Edit'),
+    Action::make('edit')
+        ->label('Edit'),
+
     Action::make('delete')
         ->label('Delete')
         ->color('danger')
@@ -84,16 +100,60 @@ ActionGroup::make([
 ]);
 ```
 
-When the user clicks a grouped action with inline confirmation, the dropdown stays open to show the confirmation state. On confirm, the action executes and the dropdown closes.
+When an inline confirmation action is triggered inside a dropdown, the dropdown stays open so the confirmation state can be shown. After confirmation, the action executes and the dropdown closes.
 
-## Limitations
+## Dropdown closing behavior
 
-Only confirmation-only actions are rendered inline. Actions with forms, schemas, custom modal content, custom modal footer content, URL behavior, or submit behavior fall back to Filament's default modal behavior.
+You can control whether a grouped action closes its dropdown after confirmation.
+
+```php
+Action::make('delete')
+    ->requiresConfirmation()
+    ->inlineConfirmation(closeDropdown: false);
+```
+
+You may also pass a closure:
+
+```php
+Action::make('delete')
+    ->requiresConfirmation()
+    ->inlineConfirmation(
+        closeDropdown: fn (): bool => auth()->user()->prefers_compact_actions,
+    );
+```
+
+The same option is available for hold-to-confirm:
+
+```php
+Action::make('delete')
+    ->holdToConfirm(closeDropdown: false);
+```
+
+## Eligibility and fallback behavior
+
+Fluid Actions only renders simple action confirmations inline. If an action needs Filament's modal or submit behavior, it automatically falls back to the original Filament action rendering.
+
+Actions fall back when they have:
+
+- forms or schemas
+- custom modal content
+- custom modal footer content
+- URL behavior
+- POST-to-URL behavior
+- form submit behavior
+
+For inline confirmation, the action must also use `requiresConfirmation()`.
 
 ## Testing
 
 ```bash
 composer test
+```
+
+Run static analysis:
+
+```bash
+composer analyse
 ```
 
 ## Changelog
