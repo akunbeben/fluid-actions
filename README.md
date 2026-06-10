@@ -1,6 +1,6 @@
 # Fluid Actions for Filament
 
-![Fluid Actions](art/banner.jpeg)
+<img src="art/banner.jpeg" alt="Fluid Actions" class="filament-hidden">
 
 Make Filament Actions feel fluid.
 
